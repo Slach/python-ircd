@@ -107,8 +107,7 @@ user = OneOrMore(charclass(
 )).leaveWhitespace()
 
 
-nickname = (letter ^ special) + \
-           (0, 8) * (letter ^ digit ^ special ^ '-')
+nickname = (letter ^ special) + (0, 64) * (letter ^ digit ^ special ^ '-' ^ ':')
 
 # Used as part of message
 prefix = servername ^ \

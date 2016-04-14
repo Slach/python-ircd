@@ -8,12 +8,11 @@ def _M(*args, **kwargs):
 
 
 def RPL_WELCOME(target):
-    return _M(target, '001', 'Welcome to the Internet Relay Network %s'
-                             % str(target.get_user()))
+    return _M(target, '001', 'Welcome %s' % str(target.get_user()))
 
 
 def RPL_YOURHOST(target):
-    return _M(target, '002', 'Your host is %s running an experimental server'
+    return _M(target, '002', 'Your chat host is %s'
                              % config.get('server', 'servername'))
 
 

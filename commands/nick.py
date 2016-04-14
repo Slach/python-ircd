@@ -1,3 +1,4 @@
+import logging
 from commands.base import Command
 from models.user import User
 from models.server import Server
@@ -8,6 +9,8 @@ from include.numeric_responses import *
 from include.message import Message as M
 
 from ._welcome import welcome
+
+log = logging.getLogger(__name__)
 
 
 class ReturnNone(object):
@@ -65,7 +68,8 @@ class NickCommand(Command):
 
     def check_invalid_nick(self):
         parsed_nick = abnf.parse(self.params.nick, abnf.nickname)
-        if len(self.params.nick) > 9 or parsed_nick != self.params.nick:
+        log.debug('%s > 64 or %s != %s' % (len(self.params.nick), parsed_nick, self.params.nick))
+        if len(self.params.nick) > 64 or parsed_nick != self.params.nick:
             nick = self.params.nick.replace(' ', '_')
             return ERR_ERRONEUSNICKNAME(nick, self.actor)
 
