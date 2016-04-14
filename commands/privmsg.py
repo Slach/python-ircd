@@ -33,6 +33,7 @@ class PrivmsgCommand(Command):
                 PrivmsgCommand.channel_log_files[channel_log].write("%s::%s::%s::%s\n" % (
                         time.time(), time.strftime('%Y-%m-%d %H:%I:%S'), self.user.nickname, text
                 ))
+                PrivmsgCommand.channel_log_files[channel_log].flush()
                 users = [user for user in Channel.get(receiver).users if user is not self.user]
                 resp.append(M(
                     ActorCollection(users),
