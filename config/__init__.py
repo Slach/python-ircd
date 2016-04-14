@@ -1,28 +1,32 @@
 import os
 from six.moves.configparser import SafeConfigParser
 from datetime import datetime
-import pydispatch
 from pydispatch import dispatcher
 import logging.config
+import argparse
 
+__all__ = ['config']
 
 class SignalingSafeConfigParser(SafeConfigParser):
     def set(self, section, option, value=None):
         SafeConfigParser.set(self, section, option, value)
         dispatcher.send('%s.%s' % (section, option), 'config')
 
-config_path = os.path.dirname(__file__)
+
+parser = argparse.ArgumentParser(description='python-ircd running script')
+parser.add_argument('--config-path',
+                    type=str,
+                    required=False,
+                    help='path to the server.ini and logging.ini')
+args = parser.parse_args()
+
+config_path = args.config_path if args.config_path else os.path.dirname(__file__)
 config = SignalingSafeConfigParser({
     'created': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
 })
 config.read(os.path.join(config_path, 'server.ini'))
 
 
-def set_decorator(f):
-    return f
-
-__all__ = ['config']
-
 logging.config.fileConfig(os.path.join(
-    config_path, config.get('server', 'log_config')
+    config_path, 'logging.ini'
 ))
