@@ -88,8 +88,7 @@ class NickCommand(Command):
            self.user is User.get(self.params.nick):
             return ReturnNone
         # real collision
-        return
-        #return ERR_NICKNAMEINUSE(self.params.nick, self.actor)
+        return ERR_NICKNAMEINUSE(self.params.nick, self.actor)
 
     def build_handlers(self):
         self.handlers = {
