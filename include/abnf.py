@@ -83,10 +83,7 @@ middle = Group(nospcrlfcl + ZeroOrMore(':' ^ nospcrlfcl))
 # Used as part of params
 trailing = Group(ZeroOrMore(oneOf([':', ' ']) ^ nospcrlfcl))
 
-params = (((0, 14) * (space + middle)) +
-             Optional(space + Suppress(':') + trailing)) ^ \
-         (14 * (space + middle) +
-          Optional(space + Optional(Suppress(':')) + trailing))
+params = (((0, 14) * (space + middle)) + Optional(space + Suppress(':') + trailing)) ^  (14 * (space + middle) + Optional(space + Optional(Suppress(':')) + trailing))
 params.leaveWhitespace()
 
 servername = hostname

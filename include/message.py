@@ -19,8 +19,8 @@ class Message(object):
 
     @staticmethod
     def from_string(string):
-        if len(string) > 512:
-            raise Error('Message must not be longer than 512 characters')
+        if len(string) > 1024 or not len(string):
+            raise Error('Message must be 1-1024 characters')
         raw = abnf.parse(string, abnf.message)
         if not raw:
             raise Error('Failed to parse message: ' + string)
