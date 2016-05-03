@@ -23,6 +23,7 @@ def handle(socket, address):
     while not Actor.by_socket(socket).disconnected:
         line = fileobj.readline()
         if not line:
+            Actor.by_socket(socket).flush()
             Actor.by_socket(socket).disconnect()
             continue
         try:
