@@ -28,12 +28,18 @@ class PrivmsgCommand(Command):
         for receiver in receivers.split(','):
             if Channel.exists(receiver):
                 channel_log = '%s/%s.log' % ( config.get('server', 'channel_log_dir'), receiver.replace('#',''))
-                if not PrivmsgCommand.channel_log_files.get(channel_log):
-                    PrivmsgCommand.channel_log_files[channel_log] = open(channel_log,'a')
-                PrivmsgCommand.channel_log_files[channel_log].write("%s::%s::%s::%s\n" % (
+                # if not PrivmsgCommand.channel_log_files.get(channel_log):
+                #     PrivmsgCommand.channel_log_files[channel_log] = open(channel_log,'a')
+                # PrivmsgCommand.channel_log_files[channel_log].write("%s::%s::%s::%s\n" % (
+                #         time.time(), time.strftime('%Y-%m-%d %H:%I:%S'), self.user.nickname, text
+                # ))
+                # PrivmsgCommand.channel_log_files[channel_log].flush()
+                with open(channel_log,'a') as f:
+                    f.write("%s::%s::%s::%s\n" % (
                         time.time(), time.strftime('%Y-%m-%d %H:%I:%S'), self.user.nickname, text
-                ))
-                PrivmsgCommand.channel_log_files[channel_log].flush()
+                    ))
+                    f.flush()
+
                 users = [user for user in Channel.get(receiver).users if user is not self.user]
                 resp.append(M(
                     ActorCollection(users),

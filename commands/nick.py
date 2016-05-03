@@ -53,7 +53,8 @@ class NickCommand(Command):
     def build_checks(self):
         self.checks = [
             self.check_missing_nick, self.check_invalid_nick,
-            self.check_network_nickcollision, self.check_local_nickcollision
+            self.check_network_nickcollision,
+            self.check_local_nickcollision,
         ]
 
     def run_checks(self):
