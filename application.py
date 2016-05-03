@@ -22,6 +22,9 @@ def handle(socket, address):
     fileobj = socket.makefile('rw')
     while not Actor.by_socket(socket).disconnected:
         line = fileobj.readline()
+        if not line:
+            Actor.by_socket(socket).disconnect()
+            continue
         try:
             msg = Message.from_string(line)
             log.debug('<= %s %s' % (repr(msg.target), repr(msg)))
